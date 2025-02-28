@@ -5,13 +5,13 @@ using UnityEngine;
 public class PoolManager : MonoBehaviour
 {
     // 프리팹들을 보관할 변수(배열)
-    public GameObject[] enemies;
+    public GameObject[] Prefap;
     // 풀 담당을 하는 리스트들
     List<GameObject>[] pools;
 
     void Awake()
     {
-        pools = new List<GameObject>[enemies.Length];
+        pools = new List<GameObject>[Prefap.Length];
 
         for(int i=0;i<pools.Length;i++)
         {
@@ -38,7 +38,7 @@ public class PoolManager : MonoBehaviour
         // 놀고있는 놈이 없으면? 새로 생성해서  Select에 할당
         if (!select)
         {
-            select = Instantiate(enemies[index], transform);
+            select = Instantiate(Prefap[index], transform);
             pools[index].Add(select);
         }
 

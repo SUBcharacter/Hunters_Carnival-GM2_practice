@@ -700,6 +700,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1019547960}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &615053687
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 615053688}
+  - component: {fileID: 615053689}
+  m_Layer: 0
+  m_Name: Weapon 0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &615053688
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615053687}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1913868305}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &615053689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615053687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d5bd79caf35e814fa8a5006bc2f077f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponData:
+  - id: 0
+    prefapId: 1
+    damage: 11
+    speed: 300
+    count: 6
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1260,8 +1310,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7d7710b15ada7448b5e88376b665a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies:
+  Prefap:
   - {fileID: 199013946195670810, guid: 61e5ee799dd0b8f4cb57e3c8d3b61868, type: 3}
+  - {fileID: 5377166660950271123, guid: 004ba09350427bc4ca5ab4696d7c9238, type: 3}
 --- !u!4 &1371754169
 Transform:
   m_ObjectHideFlags: 0
@@ -123846,6 +123897,7 @@ Transform:
   - {fileID: 392190507}
   - {fileID: 977353604}
   - {fileID: 1019547960}
+  - {fileID: 615053688}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1913868306
