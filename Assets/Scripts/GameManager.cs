@@ -5,9 +5,15 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    [Header("# Game Control")]
     public Player player;
     public PoolManager pool;
-
+    [Header("# Player Info")]
+    public int level=0;
+    public int kill;
+    public int exp;
+    public int[] nextExp;
+    [Header("# Game Object")]
     public float gameTime;
     public static float maxGameTime = 10 * 10f;
 
@@ -23,6 +29,17 @@ public class GameManager : MonoBehaviour
         if (gameTime > maxGameTime)
         {
             gameTime = maxGameTime;
+        }
+    }
+
+    public void GetExp()
+    {
+        exp++;
+
+        if(exp == nextExp[level])
+        {
+            level++;
+            exp = 0;
         }
     }
 }
