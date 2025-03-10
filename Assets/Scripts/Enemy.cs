@@ -91,7 +91,12 @@ public class Enemy : MonoBehaviour
             sprite.sortingOrder = 2;
             anime.SetBool("Dead",true);
             GameManager.instance.kill++;
-            GameManager.instance.GetExp();
+            if(GameManager.instance.level == GameManager.instance.maxLevel)
+            {
+                GameManager.instance.exp = GameManager.instance.nextExp[GameManager.instance.maxLevel-1];
+            }
+            else
+                GameManager.instance.GetExp();
             
         }
     }
