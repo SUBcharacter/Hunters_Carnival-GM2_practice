@@ -5,32 +5,32 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    public int id;
+    public int prefapId;
+    public float damage;
+    public float speed;
+    public int count;
 
-    public WeaponData[] weaponData;
-
-    int index = 0;
+    int index;
     float timer;
     Player player;
 
     void Awake()
     {
-        player = GetComponentInParent<Player>();
+        player = GameManager.instance.player;
     }
-    void Start()
-    {
-        Init();
-    }
+    
     void Update()
     {
-        switch (weaponData[index].id)
+        switch (id)
         {
             case 0:
-                transform.Rotate(Vector3.back * weaponData[0].speed * Time.deltaTime);
+                transform.Rotate(Vector3.back * speed * Time.deltaTime);
                 break;
             default:
                 timer += Time.deltaTime;
 
-                if (timer > weaponData[index].speed)
+                if (timer > speed)
                 {
                     timer = 0;
                     Fire();
@@ -45,35 +45,56 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public void Init()
+    public void Init(ItemData data)
     {
-        switch(weaponData[index].id)
+        //Basic Set
+        name = "Weapon " + data.itemId;
+        transform.parent = player.transform;
+        transform.localPosition = Vector3.zero;
+
+        //Property Set
+        id = data.itemId;
+        damage = data.baseDamage;
+        count = data.baseCount;
+
+        for(int i=0;index < GameManager.instance.pool.Prefap.Length;i++)
+        {
+            if(data.projectile == GameManager.instance.pool.Prefap[i])
+            {
+                prefapId = i;
+                break;
+            }
+        }
+
+        switch(id)
         {
             case 0:
-                weaponData[index].speed = 300;
+                speed = 300;
                 Inbound();
                 break;
             
             default:
-                weaponData[index].speed = 0.1f;
+                speed = 0.5f;
                 break;
         }
+        player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);
     }
 
-    public void LevelUp(float damage, int count)
+    public void LevelUp(float damageUP, int countUP)
     {
-        weaponData[index].damage += damage;
-        weaponData[index].count += count;
+        damage += damageUP;
+        count += countUP;
 
-        if(weaponData[index].id == 0)
+        if(id == 0)
         {
             Inbound();
         }
+        player.BroadcastMessage("ApplyGear",SendMessageOptions.DontRequireReceiver);
     }
 
     void Inbound()
     {
-        for(int i = 0; i <weaponData[index].count; i++)
+        for(int i = 0; i <count; i++)
         {
             Transform bullet;
 
@@ -83,17 +104,17 @@ public class Weapon : MonoBehaviour
             }
             else
             {
-               bullet = GameManager.instance.pool.Get(weaponData[index].prefapId).transform;
+               bullet = GameManager.instance.pool.Get(prefapId).transform;
                bullet.parent = transform;
             }
             
             bullet.localPosition = Vector3.zero;
             bullet.localRotation = Quaternion.identity;
 
-            Vector3 rotVec = Vector3.forward * 360 * i / weaponData[index].count;
+            Vector3 rotVec = Vector3.forward * 360 * i / count;
             bullet.Rotate(rotVec);
             bullet.Translate(bullet.up * 1.5f, Space.World);
-            bullet.GetComponent<Bullet>().Init(weaponData[index].damage, -1, Vector3.zero); // -1 : 公茄 包烹
+            bullet.GetComponent<Bullet>().Init(damage, -1, Vector3.zero); // -1 : 公茄 包烹
         }
     }
 
@@ -106,18 +127,10 @@ public class Weapon : MonoBehaviour
         Vector3 dir = targetPos - transform.position;
         dir = dir.normalized;
 
-        Transform bullet = GameManager.instance.pool.Get(weaponData[index].prefapId).transform;
+        Transform bullet = GameManager.instance.pool.Get(prefapId).transform;
         bullet.position = transform.position;
         bullet.rotation = Quaternion.FromToRotation(Vector3.up, dir);
-        bullet.GetComponent<Bullet>().Init(weaponData[index].damage, weaponData[index].count, dir);
+        bullet.GetComponent<Bullet>().Init(damage, count, dir);
     }
 }
-[System.Serializable]
-public class WeaponData
-{
-    public int id;
-    public int prefapId;
-    public float damage;
-    public float speed;
-    public int count;
-}
+
