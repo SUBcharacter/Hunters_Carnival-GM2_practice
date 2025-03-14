@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [Header("# Game Object")]
     public float gameTime;
     public float maxGameTime = 10 * 10f;
+    public LevelUp UILVup;
 
     void Awake()
     {
@@ -29,6 +30,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         health = maxHealth;
+
+
+        UILVup.Select(0);
     }
 
     void Update()
@@ -55,6 +59,7 @@ public class GameManager : MonoBehaviour
             }
             else
                 exp = 0;
+            UILVup.show();
         }
     }
 }
