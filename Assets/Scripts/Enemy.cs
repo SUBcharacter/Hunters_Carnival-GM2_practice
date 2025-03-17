@@ -32,6 +32,8 @@ public class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!GameManager.instance.isLive)
+            return;
         if (!isLive || anime.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
             return;
 
@@ -43,6 +45,8 @@ public class Enemy : MonoBehaviour
 
     void LateUpdate()
     {
+        if (!GameManager.instance.isLive)
+            return;
         if (!isLive)
             return;
 
@@ -91,12 +95,7 @@ public class Enemy : MonoBehaviour
             sprite.sortingOrder = 2;
             anime.SetBool("Dead",true);
             GameManager.instance.kill++;
-            if(GameManager.instance.level == GameManager.instance.maxLevel)
-            {
-                GameManager.instance.exp = GameManager.instance.nextExp[GameManager.instance.maxLevel-1];
-            }
-            else
-                GameManager.instance.GetExp();
+            GameManager.instance.GetExp();
             
         }
     }
