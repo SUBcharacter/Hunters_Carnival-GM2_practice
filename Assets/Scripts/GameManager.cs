@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public Player player;
     public PoolManager pool;
     [Header("# Player Info")]
+    public int playerId;
     public float health;
     public float maxHealth = 100f;
     public int level=1;
@@ -32,10 +33,13 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void GameStart()
+    public void GameStart(int id)
     {
+        playerId = id;
         health = maxHealth;
-        UILVup.Select(0);
+
+        player.gameObject.SetActive(true);
+        UILVup.Select(playerId % 2);
         Resume();
         
     }
