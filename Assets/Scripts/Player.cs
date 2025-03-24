@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     Rigidbody2D rigid;
     SpriteRenderer sprite;
     Animator anim;
+    Vector2 lastVaildPosition;
 
     void Awake()
     {
@@ -28,6 +29,7 @@ public class Player : MonoBehaviour
     {
         speed *= Character.Speed;
         anim.runtimeAnimatorController = anicon[GameManager.instance.playerId];
+        lastVaildPosition = transform.position;
     }
 
     void FixedUpdate()
@@ -36,6 +38,8 @@ public class Player : MonoBehaviour
             return;
         Vector2 nextVec = inputVec.normalized * speed * Time.fixedDeltaTime;
         rigid.MovePosition(rigid.position + nextVec);
+        lastVaildPosition = transform.position;
+
     }
 
     void OnMove(InputValue value)
@@ -70,6 +74,18 @@ public class Player : MonoBehaviour
 
             anim.SetTrigger("Dead");
             GameManager.instance.GameOver();
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Ground"))
+        {
+            if (gameObject.CompareTag("Player"))
+            {
+                transform.position = lastVaildPosition;
+                rigid.linearVelocity = Vector2.zero; 
+            }
         }
     }
 }
