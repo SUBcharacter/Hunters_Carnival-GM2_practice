@@ -84,6 +84,7 @@ public class Enemy : MonoBehaviour
         {
             // 살았을때
             anime.SetTrigger("Hit");
+            AudioManager.instance.PlaySFX(AudioManager.Sfx.Hit0);
 
         }
         else
@@ -96,7 +97,9 @@ public class Enemy : MonoBehaviour
             anime.SetBool("Dead",true);
             GameManager.instance.kill++;
             GameManager.instance.GetExp();
-            
+            if(GameManager.instance.isLive)
+                AudioManager.instance.PlaySFX(AudioManager.Sfx.Dead);
+
         }
     }
 
