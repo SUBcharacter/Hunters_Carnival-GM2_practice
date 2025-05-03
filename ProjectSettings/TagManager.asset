@@ -9,6 +9,8 @@ TagManager:
   - Ground
   - Bullet
   - Border
+  - Magic
+  - Screen
   layers:
   - Default
   - TransparentFX

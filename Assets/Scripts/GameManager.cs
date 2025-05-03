@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     public int[] nextExp;
     [Header("# Game Object")]
     public float gameTime;
-    public float maxGameTime = 10 * 10f;
+    public float maxGameTime = 1200f;
     public LevelUp UILVup;
     public Result uiResult;
     public GameObject enemyCleaner;
@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
         health = maxHealth;
 
         player.gameObject.SetActive(true);
-        UILVup.Select(playerId % 2);
+        UILVup.Select(playerId);
         Resume();
         AudioManager.instance.PlayBGM(true);
         AudioManager.instance.PlaySFX(AudioManager.Sfx.Select);

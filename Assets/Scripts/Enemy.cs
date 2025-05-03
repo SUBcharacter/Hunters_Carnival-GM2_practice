@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     public RuntimeAnimatorController[] anicon;
 
 
+
     bool isLive;
 
     Rigidbody2D rigid;
@@ -74,11 +75,20 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Bullet") || !isLive)
+        if (!collision.CompareTag("Bullet") && !collision.CompareTag("Magic") || !isLive)
             return;
 
-        health -= collision.GetComponent<Bullet>().damage;
-        StartCoroutine(KnockBack());
+        if(collision.CompareTag("Bullet"))
+        {
+            health -= collision.GetComponent<Bullet>().damage;
+            StartCoroutine(KnockBack());
+        }
+        else if(collision.CompareTag("Magic"))
+        {
+            health -= collision.GetComponent<Magic>().damage;
+            StartCoroutine(KnockBack());
+        }
+        
 
         if(health > 0)
         {

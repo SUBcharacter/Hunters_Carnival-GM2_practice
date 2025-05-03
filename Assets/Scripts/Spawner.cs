@@ -7,15 +7,17 @@ public class Spawner : MonoBehaviour
     public Transform[] spawnPoint;
     public SpawnData[] spawnData;
     public float levelTime;
-
+     
     float timer;
     int level;
+    int maxEnemyCount = 50;
     
 
     void Awake()
     {
         spawnPoint = GetComponentsInChildren<Transform>();
         levelTime = GameManager.instance.maxGameTime / spawnData.Length;
+        
     }
 
     void Update()
@@ -24,11 +26,11 @@ public class Spawner : MonoBehaviour
             return;
         timer += Time.deltaTime;
         level = Mathf.Min(Mathf.FloorToInt(GameManager.instance.gameTime / levelTime),spawnData.Length-1);
-        if (level > 4)
+        if (level > spawnData.Length)
         {
-            level = 4;
-            level = 4;
+            level = spawnData.Length;
         }
+
 
         if (timer > spawnData[level].spawnTime)
         {
@@ -40,9 +42,15 @@ public class Spawner : MonoBehaviour
 
     void Spawn()
     {
-        GameObject enemy = GameManager.instance.pool.Get(0);
-        enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
-        enemy.GetComponent<Enemy>().Init(spawnData[level]);
+
+        if (GameManager.instance.pool.count < maxEnemyCount)
+        {
+            GameObject enemy = GameManager.instance.pool.Get(0);
+            enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
+            enemy.GetComponent<Enemy>().Init(spawnData[level]);
+        }
+        else
+            return;
     }
 }
 

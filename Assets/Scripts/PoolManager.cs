@@ -9,6 +9,8 @@ public class PoolManager : MonoBehaviour
     // 풀 담당을 하는 리스트들
     List<GameObject>[] pools;
 
+    public int count;
+
     void Awake()
     {
         pools = new List<GameObject>[Prefap.Length];
@@ -17,6 +19,12 @@ public class PoolManager : MonoBehaviour
         {
             pools[i] = new List<GameObject>();
         }
+        
+    }
+
+    void Update()
+    {
+        count = GetComponentsInChildren<Enemy>().Length;
     }
 
     public GameObject Get(int index)

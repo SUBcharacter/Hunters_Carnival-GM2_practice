@@ -29,7 +29,7 @@ public class Weapon : MonoBehaviour
             case 0:
                 transform.Rotate(Vector3.back * speed * Time.deltaTime);
                 break;
-            default:
+            case 1:
                 timer += Time.deltaTime;
 
                 if (timer > speed)
@@ -38,6 +38,19 @@ public class Weapon : MonoBehaviour
                     Fire();
                 }
                 break;
+            case 6:
+                timer += Time.deltaTime;
+                if(timer > speed)
+                {
+                    timer = 0;
+                    for(int i=0; i< count-5;i++)
+                    {
+                        Deploy();
+                    }
+                    
+                }
+                break;
+            
         }
     }
 
@@ -69,6 +82,12 @@ public class Weapon : MonoBehaviour
                 Inbound();
                 break;
             
+            case 1:
+                speed = 0.5f * Character.WeaponRate;
+                break;
+            case 6:
+                speed = 1f * Character.WeaponRate;
+                break;
             default:
                 speed = 0.5f * Character.WeaponRate;
                 break;
@@ -135,6 +154,21 @@ public class Weapon : MonoBehaviour
         bullet.GetComponent<Bullet>().Init(damage, count, dir);
 
         AudioManager.instance.PlaySFX(AudioManager.Sfx.Range);
+    }
+
+    void Deploy()
+    {
+        if (!player.scanner.nearestTarget)
+            return;
+
+        Vector3 targetPos = player.scanner.nearestTarget.position;
+        Vector3 dir = targetPos - transform.position;
+        dir = dir.normalized;
+
+        Transform reflex = GameManager.instance.pool.Get(prefapId).transform;
+        reflex.position = transform.position;
+        reflex.rotation = Quaternion.FromToRotation(Vector3.up, dir);
+        reflex.GetComponent<Magic>().Init(damage, count, dir);
     }
 }
 
